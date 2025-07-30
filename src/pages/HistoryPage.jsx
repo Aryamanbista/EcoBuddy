@@ -17,7 +17,7 @@ const HistoryPage = () => {
                 <p className="font-semibold text-gray-800">{item.type} Waste</p>
                 <p className="text-sm text-gray-500">Scheduled on: {item.date}</p>
               </div>
-              <span className="px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+              <span className="px-3 py-1 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
                 {item.status}
               </span>
             </li>

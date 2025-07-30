@@ -12,7 +12,7 @@ const StatusBadge = ({ status }) => {
   const styles = {
     'Submitted': { icon: <FaPaperPlane />, color: 'bg-blue-100 text-blue-800' },
     'In Progress': { icon: <FaClock />, color: 'bg-yellow-100 text-yellow-800' },
-    'Resolved': { icon: <FaCheckCircle />, color: 'bg-green-100 text-green-800' },
+    'Resolved': { icon: <FaCheckCircle />, color: 'bg-blue-100 text-blue-800' },
   };
   const current = styles[status] || styles['Submitted'];
   return (
@@ -42,7 +42,7 @@ const ReportIssuePage = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="issueType" className="block text-gray-700 text-lg font-bold mb-3">Type of Issue</label>
-              <select id="issueType" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+              <select id="issueType" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option>Missed Pickup</option>
                 <option>Overflowing Bin</option>
                 <option>Illegal Dumping</option>
@@ -52,13 +52,13 @@ const ReportIssuePage = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="description" className="block text-gray-700 text-lg font-bold mb-3">Description</label>
-              <textarea id="description" rows="5" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Please provide details about the issue, including location if possible." required></textarea>
+              <textarea id="description" rows="5" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Please provide details about the issue, including location if possible." required></textarea>
             </div>
             <div className="mb-6">
               <label htmlFor="attachment" className="block text-gray-700 text-lg font-bold mb-3">Attach a Photo (Optional)</label>
-              <input type="file" id="attachment" className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100" />
+              <input type="file" id="attachment" className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
             </div>
-            <button type="submit" className="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors">
+            <button type="submit" className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors">
               Submit Report
             </button>
           </form>

@@ -2,10 +2,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { PublicRoute } from './components/PublicRoute'; // <-- Import PublicRoute
 
-// Import Pages (we will create these next)
+// Import Pages
+import LandingPage from './pages/LandingPage'; // <-- Import LandingPage
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage'; // For user/community registration
+import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import SchedulePickupPage from './pages/SchedulePickupPage';
 import ReportIssuePage from './pages/ReportIssuePage';
@@ -19,8 +21,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+          <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
 
           {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
@@ -30,8 +33,8 @@ function App() {
           <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
           <Route path="/reports" element={<ProtectedRoute><ReportsPage /></ProtectedRoute>} />
           
-          {/* Default Route */}
-          <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          {/* Fallback Route (optional: can redirect to landing or a 404 page) */}
+          <Route path="*" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

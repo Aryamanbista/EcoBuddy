@@ -1,25 +1,38 @@
 // src/pages/RegisterPage.jsx
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
-// Mock data for existing communities
-const mockCommunities = [
-  { id: 1, name: 'bluewood Community' },
-  { id: 2, name: 'Sunnyvale Estates' },
-  { id: 3, name: 'Maple Creek' },
-];
+import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const [isNewCommunity, setIsNewCommunity] = useState(false);
+  const { register } = useAuth();
+  const [formData, setFormData] = useState({
+    community: 'bluewood Community', // Default value
+    fullName: '',
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleRegister = (e) => {
     e.preventDefault();
-    // TODO: Implement actual registration logic
-    // Send form data to the backend API
-    // On success, navigate to login
-    alert('Registration successful! Please log in.');
-    navigate('/login');
+    setError('');
+    setSuccess('');
+
+    const result = register(formData);
+
+    if (result.success) {
+      setSuccess(result.message);
+      // Redirect to login after a short delay
+      setTimeout(() => navigate('/login'), 2000);
+    } else {
+      setError(result.message);
+    }
   };
 
   return (
@@ -27,41 +40,25 @@ const RegisterPage = () => {
       <div className="p-8 bg-white rounded-lg shadow-xl w-full max-w-lg">
         <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">Create Your Account</h2>
         <form onSubmit={handleRegister}>
-          {/* Community Selection */}
+          {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
+          {success && <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="alert">{success}</div>}
+          
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Community
-            </label>
-            {isNewCommunity ? (
-              <input className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700" type="text" placeholder="Enter new community name" required />
-            ) : (
-              <select className="shadow border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
-                {mockCommunities.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-              </select>
-            )}
-            <button type="button" onClick={() => setIsNewCommunity(!isNewCommunity)} className="text-sm text-blue-600 hover:underline mt-2">
-              {isNewCommunity ? 'Join an existing community' : 'Register a new community'}
-            </button>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="community">Community Name</label>
+            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700" type="text" placeholder="Enter community name" name="community" value={formData.community} onChange={handleChange} required />
           </div>
-
-          {/* User Details */}
+          
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullName">
-              Full Name
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="fullName" type="text" placeholder="John Doe" required />
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullName">Full Name</label>
+            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="fullName" name="fullName" type="text" placeholder="John Doe" value={formData.fullName} onChange={handleChange} required />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email Address
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="email" type="email" placeholder="you@example.com" required />
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email Address</label>
+            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="email" name="email" type="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} required />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-              Password
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="password" type="password" placeholder="******************" required />
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
+            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="password" name="password" type="password" placeholder="******************" value={formData.password} onChange={handleChange} required />
           </div>
           
           <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg w-full transition-colors" type="submit">

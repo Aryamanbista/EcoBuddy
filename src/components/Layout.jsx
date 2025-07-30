@@ -8,7 +8,7 @@ const SidebarLink = ({ to, icon, children }) => (
     to={to}
     className={({ isActive }) =>
       `flex items-center p-3 my-1 rounded-lg transition-colors ${
-        isActive ? 'bg-green-700 text-white' : 'text-gray-200 hover:bg-green-600 hover:text-white'
+        isActive ? 'bg-blue-700 text-white' : 'text-gray-200 hover:bg-blue-600 hover:text-white'
       }`
     }
   >
@@ -29,8 +29,8 @@ export const Layout = ({ children }) => {
   return (
     <div className="flex h-screen bg-gray-100 font-sans">
       {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 bg-green-800 text-white flex flex-col p-4">
-        <div className="text-2xl font-bold mb-8">WasteWise</div>
+      <aside className="w-64 flex-shrink-0 bg-blue-800 text-white flex flex-col p-4">
+        <div className="text-2xl font-bold mb-8">EcoBuddy</div>
         <nav>
           <SidebarLink to="/dashboard" icon={<FaTachometerAlt />}>Dashboard</SidebarLink>
           <SidebarLink to="/schedule-pickup" icon={<FaCalendarPlus />}>Schedule Pickup</SidebarLink>

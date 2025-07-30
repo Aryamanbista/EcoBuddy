@@ -56,7 +56,7 @@ const DashboardPage = () => {
         </div>
         <div className="lg:col-span-2">
             <Card title="Upcoming & Recent Activity" icon={<FaBell />}>
-                <div className="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 rounded-r-lg mb-4">
+                <div className="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-r-lg mb-4">
                     <p className="font-bold">Next Scheduled Pickup</p>
                     <p>{nextPickup.type} - {nextPickup.date}</p>
                 </div>

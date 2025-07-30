@@ -22,21 +22,21 @@ const SchedulePickupPage = () => {
             <label className="block text-gray-700 text-lg font-bold mb-3">Select Waste Type</label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* General Waste */}
-              <label className={`p-4 border-2 rounded-lg cursor-pointer flex flex-col items-center justify-center ${wasteType === 'general' ? 'border-green-500 bg-green-50' : 'border-gray-200'}`}>
+              <label className={`p-4 border-2 rounded-lg cursor-pointer flex flex-col items-center justify-center ${wasteType === 'general' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
                 <input type="radio" name="wasteType" value="general" className="hidden" onChange={(e) => setWasteType(e.target.value)} checked={wasteType === 'general'}/>
                 <FaTrash className="text-4xl text-gray-600 mb-2" />
                 <span className="font-semibold">General Waste</span>
               </label>
               {/* Recyclable Waste */}
-              <label className={`p-4 border-2 rounded-lg cursor-pointer flex flex-col items-center justify-center ${wasteType === 'recyclable' ? 'border-green-500 bg-green-50' : 'border-gray-200'}`}>
+              <label className={`p-4 border-2 rounded-lg cursor-pointer flex flex-col items-center justify-center ${wasteType === 'recyclable' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
                 <input type="radio" name="wasteType" value="recyclable" className="hidden" onChange={(e) => setWasteType(e.target.value)} checked={wasteType === 'recyclable'}/>
                 <FaRecycle className="text-4xl text-blue-500 mb-2" />
                 <span className="font-semibold">Recyclable</span>
               </label>
               {/* Organic Waste */}
-              <label className={`p-4 border-2 rounded-lg cursor-pointer flex flex-col items-center justify-center ${wasteType === 'organic' ? 'border-green-500 bg-green-50' : 'border-gray-200'}`}>
+              <label className={`p-4 border-2 rounded-lg cursor-pointer flex flex-col items-center justify-center ${wasteType === 'organic' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
                 <input type="radio" name="wasteType" value="organic" className="hidden" onChange={(e) => setWasteType(e.target.value)} checked={wasteType === 'organic'}/>
-                <FaLeaf className="text-4xl text-green-500 mb-2" />
+                <FaLeaf className="text-4xl text-blue-500 mb-2" />
                 <span className="font-semibold">Organic</span>
               </label>
             </div>
@@ -49,11 +49,11 @@ const SchedulePickupPage = () => {
               onChange={(date) => setPickupDate(date)}
               showTimeSelect
               dateFormat="MMMM d, yyyy h:mm aa"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           
-          <button type="submit" className="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors">
+          <button type="submit" className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors">
             Confirm Schedule
           </button>
         </form>

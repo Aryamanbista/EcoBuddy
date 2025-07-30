@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   // Mock login function
   const login = (userData) => {
     // In a real app, you'd call an API and get a token
-    const mockUser = { id: 1, name: 'John Doe', email: 'john.doe@example.com', community: 'Greenwood Community', role: 'user' };
+    const mockUser = { id: 1, name: 'John Doe', email: 'john.doe@example.com', community: 'bluewood Community', role: 'user' };
     setUser(mockUser);
   };
 

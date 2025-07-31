@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import backgroundImage from '../assets/login-bg.jpg';
+import backgroundImage from '../assets/register-bg.jpg';
 
 const RegisterPage = () => {
   const navigate = useNavigate();

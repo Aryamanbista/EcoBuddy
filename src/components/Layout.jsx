@@ -7,13 +7,15 @@ const SidebarLink = ({ to, icon, children }) => (
   <NavLink
     to={to}
     className={({ isActive }) =>
-      `flex items-center p-3 my-1 rounded-lg transition-colors ${
-        isActive ? 'bg-blue-700 text-white' : 'text-gray-200 hover:bg-blue-600 hover:text-white'
+      `flex items-center p-4 my-2 rounded-xl transition-all duration-200 transform hover:scale-105 ${
+        isActive 
+          ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg' 
+          : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'
       }`
     }
   >
-    {icon}
-    <span className="ml-3">{children}</span>
+    <span className="text-xl">{icon}</span>
+    <span className="ml-4 font-medium">{children}</span>
   </NavLink>
 );
 
@@ -29,9 +31,16 @@ export const Layout = ({ children }) => {
   return (
     <div className="flex h-screen bg-gray-100 font-sans">
       {/* Sidebar (with blue theme) */}
-      <aside className="w-64 flex-shrink-0 bg-blue-800 text-white flex flex-col p-4">
-        <div className="text-2xl font-bold mb-8">WasteWise</div>
-        <nav>
+      <aside className="w-64 flex-shrink-0 bg-white text-blue-800 flex flex-col p-6 border-r shadow-lg">
+        <div className="flex items-center space-x-3 mb-10">
+          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <span className="text-white text-xl font-bold">E</span>
+          </div>
+          <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+            EcoBuddy
+          </div>
+        </div>
+        <nav className="space-y-1">
           <SidebarLink to="/dashboard" icon={<FaTachometerAlt />}>Dashboard</SidebarLink>
           <SidebarLink to="/schedule-pickup" icon={<FaCalendarPlus />}>Schedule Pickup</SidebarLink>
           <SidebarLink to="/report-issue" icon={<FaExclamationTriangle />}>Report Issue</SidebarLink>
@@ -40,7 +49,7 @@ export const Layout = ({ children }) => {
           <SidebarLink to="/reports" icon={<FaChartBar />}>Reports</SidebarLink>
         </nav>
         <div className="mt-auto">
-          <button onClick={handleLogout} className="flex items-center p-3 w-full rounded-lg text-gray-200 hover:bg-red-600 hover:text-white transition-colors">
+          <button onClick={handleLogout} className="flex items-center p-3 w-full rounded-lg text-black hover:bg-red-600 hover:text-white transition-colors duration-200 hover:scale-105">
             <FaSignOutAlt />
             <span className="ml-3">Logout</span>
           </button>

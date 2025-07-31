@@ -23,14 +23,14 @@ export const Layout = ({ children }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/'); // <-- THE FIX: Redirect to the landing page
   };
 
   return (
     <div className="flex h-screen bg-gray-100 font-sans">
-      {/* Sidebar */}
+      {/* Sidebar (with blue theme) */}
       <aside className="w-64 flex-shrink-0 bg-blue-800 text-white flex flex-col p-4">
-        <div className="text-2xl font-bold mb-8">EcoBuddy</div>
+        <div className="text-2xl font-bold mb-8">WasteWise</div>
         <nav>
           <SidebarLink to="/dashboard" icon={<FaTachometerAlt />}>Dashboard</SidebarLink>
           <SidebarLink to="/schedule-pickup" icon={<FaCalendarPlus />}>Schedule Pickup</SidebarLink>

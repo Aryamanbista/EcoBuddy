@@ -1,7 +1,7 @@
 // src/pages/LandingPage.jsx
 import { Link } from 'react-router-dom';
 import { FaRecycle, FaCalendarAlt, FaBullhorn, FaCheckCircle, FaUsers, FaArrowRight } from 'react-icons/fa';
-import heroImage from '../assets/hero-image.jpg'; // Make sure you have an image at this path
+import heroImage from '../assets/hero-image.jpg';
 
 // Header Component for Landing Page
 const LandingHeader = () => (
@@ -9,7 +9,7 @@ const LandingHeader = () => (
     <div className="container mx-auto flex justify-between items-center">
       <Link to="/" className="flex items-center space-x-2">
         <FaRecycle className="text-3xl text-blue-500" />
-        <span className="text-2xl font-bold text-gray-800">WasteWise</span>
+        <span className="text-2xl font-bold text-gray-800">EcoBuddy</span>
       </Link>
       <nav className="space-x-4">
         <Link to="/login" className="text-gray-600 hover:text-blue-600 font-semibold transition-colors">Login</Link>
@@ -45,7 +45,7 @@ const LandingPage = () => {
                 Smarter Waste Management for a <span className="bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent">Cleaner Community</span>.
               </h1>
               <p className="text-lg text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0">
-                Join your community on WasteWise to easily schedule pickups, report issues, and contribute to a more sustainable neighborhood.
+                Join your community on EcoBuddy to easily schedule pickups, report issues, and contribute to a more sustainable neighborhood.
               </p>
               <Link to="/register" className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all text-lg">
                 Join Your Community <FaArrowRight className="ml-2" />
@@ -126,7 +126,7 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8">
         <div className="container mx-auto px-4 text-center">
-          <p>© {new Date().getFullYear()} WasteWise. All Rights Reserved.</p>
+          <p>© {new Date().getFullYear()} EcoBuddy. All Rights Reserved.</p>
           <p className="text-sm text-gray-400 mt-2">Making communities cleaner, one pickup at a time.</p>
         </div>
       </footer>

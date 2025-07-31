@@ -2,10 +2,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { PublicRoute } from './components/PublicRoute'; // <-- Import PublicRoute
+import { PublicRoute } from './components/PublicRoute'; 
 
 // Import Pages
-import LandingPage from './pages/LandingPage'; // <-- Import LandingPage
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';

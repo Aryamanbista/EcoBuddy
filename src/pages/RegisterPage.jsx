@@ -45,7 +45,7 @@ const RegisterPage = () => {
           
           <div className="mb-4">
             <label className="block text-white text-sm font-bold mb-2" htmlFor="community">Community Name</label>
-            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-white" type="text" placeholder="Enter community name" name="community" value={formData.community} onChange={handleChange} required />
+            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-white" type="text" placeholder="Enter community name" name="community" onChange={handleChange} required />
           </div>
           
           <div className="mb-4">

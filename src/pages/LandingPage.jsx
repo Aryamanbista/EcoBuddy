@@ -1,7 +1,7 @@
 // src/pages/LandingPage.jsx
 import { Link } from 'react-router-dom';
 import { FaRecycle, FaCalendarAlt, FaBullhorn, FaCheckCircle, FaUsers, FaArrowRight } from 'react-icons/fa';
-import heroImage from '../assets/hero-image.jpg'; // Make sure you have an image at this path
+import heroImage from '../assets/hero-image.jpg';
 
 // Header Component for Landing Page
 const LandingHeader = () => (

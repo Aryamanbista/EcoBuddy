@@ -1,259 +1,266 @@
 // src/pages/LandingPage.jsx
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion'; 
-import { FaRecycle, FaCalendarAlt, FaBullhorn, FaCheckCircle, FaUsers, FaArrowRight } from 'react-icons/fa';
-import heroImage from '../assets/hero-image.jpg';
+import { motion } from 'framer-motion';
+import {
+  FaRecycle,
+  FaArrowRight,
+  FaCalendarCheck,
+  FaExclamationTriangle,
+  FaChartLine,
+  FaMobileAlt,
+  FaTwitter,
+  FaGithub,
+  FaLinkedin
+} from 'react-icons/fa';
+import appMockup from '../assets/app-mockup.jpg'; // Make sure you have this image
 
-// Update the animation variants at the top of the file
-const containerVariants = {
-  hidden: { opacity: 0 },
+// --- Animation Variants ---
+const sectionVariants = {
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
+    y: 0,
     transition: {
+      type: 'spring',
+      damping: 15,
+      stiffness: 100,
       staggerChildren: 0.2,
-      delayChildren: 0.3,
-      duration: 0.5,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { 
-    y: 30, 
-    opacity: 0 
-  },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 12,
-      duration: 0.6,
-    },
-  },
-};
-
-const imageVariants = {
-  hidden: { 
-    x: 100, 
-    opacity: 0 
-  },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 20,
-      duration: 0.8,
-    },
-  },
-};
-
-// Add new fade-in variant for sections
-const sectionVariants = {
-  hidden: { 
-    opacity: 0, 
-    y: 50 
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: "easeOut",
-    },
-  },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 120 } },
 };
 
 
-// Header Component (No animation needed here, keep it simple)
+// --- Reusable Modern Components ---
+
+// Aurora Background Effect (Updated for Tailwind CSS v4)
+const AuroraBackground = () => (
+  <div className="absolute top-0 left-0 -z-10 h-full w-full overflow-hidden">
+    <div className="absolute top-1/4 left-1/4 h-[500px] w-[500px] animate-pulse rounded-full bg-emerald-500/20 filter blur-3xl" />
+    <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] animate-pulse rounded-full bg-cyan-500/20 filter blur-3xl [animation-delay:4s]" />
+  </div>
+);
+
+// Glassmorphism Header
 const LandingHeader = () => (
-  <header className="absolute top-0 left-0 w-full z-20 p-4 bg-transparent">
-    <div className="container mx-auto flex justify-between items-center">
-      <Link to="/" className="flex items-center space-x-2">
-        <FaRecycle className="text-3xl text-blue-500" />
-        <span className="text-2xl font-bold text-gray-800">EcoBuddy</span>
+  <motion.header
+    initial={{ y: -100 }}
+    animate={{ y: 0 }}
+    transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+    className="fixed top-0 left-0 z-50 w-full border-b border-slate-300/10 bg-slate-900/60 backdrop-blur-lg"
+  >
+    <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
+      <Link to="/" className="flex items-center gap-2">
+        <FaRecycle className="text-3xl text-emerald-400" />
+        <span className="text-2xl font-bold tracking-tight text-slate-100">EcoBuddy</span>
       </Link>
-      <nav className="space-x-4">
-        <Link to="/login" className="text-gray-600 hover:text-blue-600 font-semibold transition-colors">Login</Link>
-        <Link to="/register" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all">
+      <nav className="flex items-center gap-4">
+        <Link to="/login" className="hidden font-medium text-slate-300 transition-colors hover:text-white sm:block">
+          Login
+        </Link>
+        <Link
+          to="/register"
+          className="transform rounded-full bg-emerald-500 py-2 px-5 font-semibold text-white shadow-lg shadow-emerald-500/20 transition-all hover:scale-105 hover:bg-emerald-600"
+        >
           Get Started
         </Link>
       </nav>
     </div>
-  </header>
+  </motion.header>
 );
 
-// Feature Card Component - Now using motion!
-const FeatureCard = ({ icon, title, description }) => (
+// Bento Grid Card Component
+const BentoCard = ({ className, icon, title, description }) => (
   <motion.div
     variants={itemVariants}
-    whileHover={{ 
-      scale: 1.05,
-      transition: { type: "spring", stiffness: 300 }
-    }}
-    className="bg-white p-6 rounded-xl shadow-lg text-center"
+    className={`group relative overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/80 p-6 ${className}`}
   >
-    <motion.div
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      transition={{ type: "spring", stiffness: 260, damping: 20 }}
-      className="text-blue-500 text-4xl mb-4 inline-block"
-    >
-      {icon}
-    </motion.div>
-    <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
-    <p className="text-gray-600">{description}</p>
+    <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-br from-white/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+    <div className="relative z-10">
+      <div className="mb-4 inline-block w-fit rounded-lg bg-slate-900 p-3 text-3xl text-emerald-400">
+        {icon}
+      </div>
+      <h3 className="mb-1 text-lg font-bold text-slate-100">{title}</h3>
+      <p className="text-sm text-slate-400">{description}</p>
+    </div>
   </motion.div>
 );
 
-
-// Main Landing Page Component
+// Main Component
 const LandingPage = () => {
   return (
-    <div className="bg-gray-50 text-gray-800 font-sans overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden bg-slate-900 font-sans text-slate-200">
+      <AuroraBackground />
       <LandingHeader />
 
-      {/* Hero Section */}
-      <motion.section 
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="relative pt-32 pb-20 lg:pt-40 lg:pb-28"
-      >
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              className="text-center lg:text-left"
-              variants={containerVariants}
+      <main className="pt-20">
+        {/* Hero Section */}
+        <motion.section
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+          className="relative px-4 py-24 text-center sm:py-32 lg:py-40"
+        >
+          <motion.h1
+            variants={itemVariants}
+            className="mb-6 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
+          >
+            Revolutionize Waste Management
+            <br />
+            for a{' '}
+            <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+              Greener Tomorrow
+            </span>
+          </motion.h1>
+          <motion.p
+            variants={itemVariants}
+            className="mx-auto mb-10 max-w-2xl text-lg text-slate-400"
+          >
+            EcoBuddy connects communities with efficient, transparent, and sustainable waste solutions. Schedule pickups, report issues, and track your impact instantly.
+          </motion.p>
+          <motion.div variants={itemVariants}>
+            <Link
+              to="/register"
+              className="inline-flex transform items-center gap-3 rounded-full bg-emerald-500 py-3 px-8 text-lg font-bold text-white shadow-lg shadow-emerald-500/30 transition-all hover:scale-105 hover:bg-emerald-600"
             >
-              <motion.h1 
-                variants={itemVariants}
-                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4"
-              >
-                Smarter Waste Management for a{" "}
-                <motion.span
-                  className="bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent"
-                  animate={{ 
-                    backgroundPosition: ["0%", "100%"],
-                    opacity: [0.8, 1] 
-                  }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatType: "reverse"
-                  }}
-                >
-                  Cleaner Community
-                </motion.span>
-                .
-              </motion.h1>
-              <motion.p variants={itemVariants} className="text-lg text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0">
-                Join your community on EcoBuddy to easily schedule pickups, report issues, and contribute to a more sustainable neighborhood.
-              </motion.p>
-              <motion.div variants={itemVariants}>
-                <Link to="/register" className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all text-lg">
-                  Join Your Community <FaArrowRight className="ml-2" />
-                </Link>
-              </motion.div>
-            </motion.div>
-            <motion.div
-              variants={imageVariants}
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              <img 
-                src={heroImage} 
-                alt="Clean and sustainable community" 
-                className="rounded-xl shadow-2xl w-full h-auto"
-              />
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Features Section */}
-      <motion.section
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        className="py-20 bg-white"
-      >
-        <div className="container mx-auto px-4">
-          <motion.div variants={itemVariants} className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold">Everything You Need, All in One Place</h2>
-            <p className="text-gray-600 mt-2">Manage your waste disposal effortlessly with our powerful features.</p>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <FeatureCard icon={<FaCalendarAlt />} title="Easy Scheduling" description="Schedule waste pickups in seconds with our intuitive calendar." />
-            <FeatureCard icon={<FaBullhorn />} title="Instant Issue Reporting" description="Report missed pickups or overflowing bins directly through the app." />
-            <FeatureCard icon={<FaCheckCircle />} title="Track Your Impact" description="View your pickup history and see your contribution to recycling goals." />
-          </div>
-        </div>
-      </motion.section>
-      
-      {/* How It Works Section */}
-      <motion.section
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        className="py-20 bg-blue-50"
-      >
-        <div className="container mx-auto px-4">
-          <motion.div variants={itemVariants} className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold">Get Started in 3 Simple Steps</h2>
-          </motion.div>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
-            <motion.div variants={itemVariants} className="text-center max-w-xs">
-              <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
-              <h3 className="text-xl font-semibold mb-2">Create an Account</h3>
-              <p className="text-gray-600">Register and join your community's waste management program.</p>
-            </motion.div>
-            <motion.div variants={itemVariants} className="text-center max-w-xs">
-              <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
-              <h3 className="text-xl font-semibold mb-2">Schedule & Report</h3>
-              <p className="text-gray-600">Request pickups or report issues anytime, anywhere.</p>
-            </motion.div>
-            <motion.div variants={itemVariants} className="text-center max-w-xs">
-              <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
-              <h3 className="text-xl font-semibold mb-2">Stay Informed</h3>
-              <p className="text-gray-600">Receive notifications and track your waste management progress.</p>
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
-      
-      {/* Final CTA Section */}
-      <motion.section
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ 
-          duration: 0.8,
-          type: "spring",
-          stiffness: 100
-        }}
-        className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white"
-      >
-        <div className="container mx-auto px-4 text-center">
-            <FaUsers className="text-5xl text-white opacity-80 mx-auto mb-4" />
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Join Thousands of Homes Making a Difference</h2>
-            <p className="text-lg text-blue-200 mb-8 max-w-2xl mx-auto">Become a part of the movement towards a cleaner, more organized, and sustainable future for your community.</p>
-            <Link to="/register" className="bg-white text-blue-600 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-gray-100 transition-colors text-lg">
-                Sign Up for Free
+              Join the Movement <FaArrowRight />
             </Link>
-        </div>
-      </motion.section>
-      
+          </motion.div>
+
+          {/* Visual Showcase */}
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 0.8, type: 'spring', stiffness: 100 }}
+            className="mx-auto mt-20 max-w-4xl lg:mt-24"
+          >
+             <div className="relative rounded-xl border border-slate-700 bg-slate-800/50 p-2 shadow-2xl shadow-slate-900/50">
+               <img
+                  src={appMockup}
+                  alt="EcoBuddy App Mockup"
+                  className="h-auto w-full rounded-lg"
+               />
+             </div>
+          </motion.div>
+        </motion.section>
+
+        {/* Features Section (Bento Grid) */}
+        <motion.section
+          id="features"
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="container mx-auto px-4 py-20 lg:py-28"
+        >
+          <div className="mb-16 text-center">
+            <motion.h2 variants={itemVariants} className="mb-3 text-3xl font-bold lg:text-4xl">The Future of Waste Management is Here</motion.h2>
+            <motion.p variants={itemVariants} className="mx-auto max-w-2xl text-lg text-slate-400">
+              A comprehensive suite of tools designed for residents, communities, and waste collectors.
+            </motion.p>
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <BentoCard
+              className="md:col-span-2"
+              icon={<FaCalendarCheck />}
+              title="Seamless Scheduling"
+              description="Pick a date, select your waste type, and get instant confirmation. It’s that simple."
+            />
+            <BentoCard
+              icon={<FaExclamationTriangle />}
+              title="Instant Reporting"
+              description="Snap a photo of an overflowing bin or a missed pickup to alert collectors in real-time."
+            />
+            <BentoCard
+              icon={<FaChartLine />}
+              title="Track Your Impact"
+              description="Visualize your recycling efforts with personal dashboards and community leaderboards."
+            />
+             <BentoCard
+              className="md:col-span-2"
+              icon={<FaMobileAlt />}
+              title="Smart Notifications"
+              description="Get timely reminders for pickup days and real-time updates on your service requests."
+            />
+          </div>
+        </motion.section>
+
+        {/* How It Works Section */}
+        <motion.section
+          id="how-it-works"
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="container mx-auto px-4 py-20 lg:py-28"
+        >
+          <div className="mb-16 text-center">
+            <motion.h2 variants={itemVariants} className="text-3xl font-bold lg:text-4xl">Get Started in Seconds</motion.h2>
+          </div>
+          <div className="relative grid gap-10 md:grid-cols-3 md:gap-6">
+            {/* Dashed line connector for desktop */}
+            <div className="absolute top-1/2 left-0 hidden h-px w-full -translate-y-1/2 md:block">
+              <svg width="100%" height="100%">
+                <line x1="0" y1="50%" x2="100%" y2="50%" strokeDasharray="8 8" stroke="#475569" strokeWidth="2" />
+              </svg>
+            </div>
+            {['Create Account', 'Schedule & Report', 'Make a Difference'].map((title, i) => (
+              <motion.div variants={itemVariants} key={title} className="relative z-10 flex flex-col items-center text-center">
+                 <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border-2 border-slate-700 bg-slate-800 shadow-lg">
+                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-2xl font-bold text-emerald-400">
+                    {i + 1}
+                   </div>
+                 </div>
+                 <h3 className="mb-2 text-xl font-semibold text-slate-100">{title}</h3>
+                 <p className="text-slate-400">
+                    {i === 0 && 'Quickly sign up and join your local community hub.'}
+                    {i === 1 && 'Use our intuitive app to manage pickups and report issues.'}
+                    {i === 2 && 'Contribute to a cleaner planet, one pickup at a time.'}
+                 </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Final CTA Section */}
+        <motion.section
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="py-20 lg:py-28"
+        >
+            <div className="container mx-auto px-4 text-center">
+                <div className="relative overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/80 py-12 px-6 lg:py-16 lg:px-8">
+                   <div className="absolute top-0 left-1/2 h-[200%] w-[200%] -translate-x-1/2 bg-[radial-gradient(circle_at_center,_rgba(34,197,94,0.15)_0%,_rgba(34,197,94,0)_50%)]"/>
+                   <motion.h2 variants={itemVariants} className="mb-4 text-3xl font-bold lg:text-4xl">Ready to Make a Change?</motion.h2>
+                   <motion.p variants={itemVariants} className="mx-auto mb-8 max-w-2xl text-lg text-slate-400">
+                     Join thousands of eco-conscious users who are transforming their communities with EcoBuddy.
+                   </motion.p>
+                   <motion.div variants={itemVariants}>
+                     <Link to="/register" className="transform rounded-full bg-white py-3 px-8 text-lg font-bold text-emerald-600 shadow-lg transition-colors hover:scale-105 hover:bg-slate-200">
+                       Sign Up for Free
+                     </Link>
+                   </motion.div>
+                </div>
+            </div>
+        </motion.section>
+      </main>
+
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8">
+      <footer className="border-t border-slate-300/10 bg-slate-900/50 py-10">
         <div className="container mx-auto px-4 text-center">
-          <p>© {new Date().getFullYear()} EcoBuddy. All Rights Reserved.</p>
-          <p className="text-sm text-gray-400 mt-2">Making communities cleaner, one pickup at a time.</p>
+          <div className="mb-4 flex justify-center gap-6">
+              <a href="#" className="text-slate-400 transition-colors hover:text-white"><FaTwitter size={20}/></a>
+              <a href="#" className="text-slate-400 transition-colors hover:text-white"><FaGithub size={20}/></a>
+              <a href="#" className="text-slate-400 transition-colors hover:text-white"><FaLinkedin size={20}/></a>
+          </div>
+          <p className="text-slate-400">© {new Date().getFullYear()} EcoBuddy. All Rights Reserved.</p>
+          <p className="mt-2 text-sm text-slate-500">Making communities cleaner, one pickup at a time.</p>
         </div>
       </footer>
     </div>

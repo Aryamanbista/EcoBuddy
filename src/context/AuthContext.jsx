@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await api.login({ email, password });
       setUser(data); // The response data includes the token
-      return { success: true };
+      return { success: true, user: data };
     } catch (error) {
       // Return the error message from the backend
       return { success: false, message: error.response?.data?.message || 'Login failed' };
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await api.register(formData);
       setUser(data);
-      return { success: true };
+      return { success: true, user: data };
     } catch (error) {
       return { success: false, message: error.response?.data?.message || 'Registration failed' };
     }

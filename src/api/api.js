@@ -43,7 +43,13 @@ export const getUserReport = () => API.get('/reports');
 // --- Community Endpoints ---
 export const getCommunities = () => API.get('/communities');
 
-// --- Admin Endpoints --- (Let's create a dedicated section for clarity)
+// --- Admin Endpoints ---
+export const getAdminStats = () => API.get('/admin/stats');
+export const getAdminIssues = () => API.get('/admin/issues');
+export const getAdminUsers = () => API.get('/admin/users');
+export const getAdminPickups = () => API.get('/admin/pickups');
+export const getAdminChartData = () => API.get('/admin/charts');
+export const updateIssueStatus = (id, status) => API.put(`/admin/issues/${id}`, { status });
 export const createAnnouncement = (formData) => API.post('/admin/announce', formData);
 
 export default API;

@@ -1,22 +1,17 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Layout } from './Layout';
 
 export const AdminRoute = () => {
   const { user } = useAuth();
 
-  if (!user) {
-    return <Navigate to="/login" />;
+  if (user === null) {
+    return <div className="text-center mt-10 text-white">Loading...</div>;
   }
 
   if (user.role !== 'admin') {
-    return <Navigate to="/dashboard" />; // Or show a "Not Authorized" page
+    return <Navigate to="/dashboard" replace/>; // Or show a "Not Authorized" page
   }
 
-  // If user is logged in and is an admin, render the content
-  return (
-    <Layout>
-      <Outlet />
-    </Layout>
-  );
+   // If user is authenticated and an admin, render the nested routes
+  return <Outlet/>
 };

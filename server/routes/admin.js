@@ -5,6 +5,9 @@ const {
   getAllIssues,
   updateIssueStatus,
   createAnnouncement,
+  getAllUsers,
+  getAllPickups,
+  getChartData
 } = require('../controllers/adminController.js');
 const { protect } = require('../middleware/authMiddleware.js');
 const { admin } = require('../middleware/adminMiddleware.js');
@@ -16,5 +19,8 @@ router.get('/stats', getDashboardStats);
 router.get('/issues', getAllIssues);
 router.put('/issues/:id', updateIssueStatus);
 router.post('/announce', createAnnouncement);
+router.get('/users', getAllUsers);
+router.get('/pickups', getAllPickups);
+router.get('/charts', getChartData);
 
 module.exports = router;

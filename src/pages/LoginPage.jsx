@@ -11,18 +11,24 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async (e) => { 
-    e.preventDefault();
-    setError('');
+  const handleLogin = async (e) => {
+  e.preventDefault();
+  setError('');
 
-    const result = await login(email, password); 
+  const result = await login(email, password);
 
-    if (result.success) {
-      navigate('/dashboard');
+  if (result.success) {
+    // Check user role for redirection
+    console.log(result.user.role)
+    if (result.user.role === "admin") {
+      navigate('/admin/dashboard');
     } else {
-      setError(result.message);
+      navigate('/dashboard');
     }
-  };
+  } else {
+    setError(result.message);
+  }
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-cover bg-no-repeat" style={{ backgroundImage: `url(${backgroundImage})` }}>

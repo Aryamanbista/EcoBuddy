@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
-const IssueSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  issueType: { type: String, required: true },
-  description: { type: String, required: true },
-  status: {
-    type: String,
-    enum: ['Submitted', 'In Progress', 'Resolved'],
-    default: 'Submitted',
+const issueSchema = mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+    community: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Community' },
+    issueType: { type: String, required: true },
+    description: { type: String, required: true },
+    imageUrl: { type: String },
+    status: { type: String, required: true, enum: ['Submitted', 'In Progress', 'Resolved'], default: 'Submitted' },
   },
-  createdAt: { type: Date, default: Date.now },
-});
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Issue', IssueSchema);
+module.exports = mongoose.model('Issue', issueSchema);

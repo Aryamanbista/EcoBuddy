@@ -1,19 +1,14 @@
 const mongoose = require('mongoose');
 
-const PickupSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  pickupDate: { type: Date, required: true },
-  wasteType: {
-    type: String,
-    enum: ['general', 'recyclable', 'organic'],
-    required: true,
+const pickupSchema = mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+    community: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Community' },
+    wasteType: { type: String, required: true, enum: ['recyclable', 'organic', 'general'] },
+    scheduledDate: { type: Date, required: true },
+    status: { type: String, required: true, enum: ['Scheduled', 'Completed', 'Cancelled'], default: 'Scheduled' },
   },
-  status: {
-    type: String,
-    enum: ['Scheduled', 'Completed', 'Cancelled'],
-    default: 'Scheduled',
-  },
-  createdAt: { type: Date, default: Date.now },
-});
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Pickup', PickupSchema);
+module.exports = mongoose.model('Pickup', pickupSchema);

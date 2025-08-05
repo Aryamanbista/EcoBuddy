@@ -1,45 +1,27 @@
-// controllers/scheduleController.js
-const Pickup = require('../models/Pickup');
-const Notification = require('../models/Notification');
+import asyncHandler from 'express-async-handler';
+import Pickup from '../models/Pickup.js';
 
-// @desc    Schedule a new pickup
+// @desc    Create a new pickup schedule
 // @route   POST /api/pickups
 // @access  Private
-exports.schedulePickup = async (req, res) => {
-  const { pickupDate, wasteType } = req.body;
+const schedulePickup = asyncHandler(async (req, res) => {
+  const { wasteType, pickupDate, pickupTime } = req.body;
 
-  try {
-    const newPickup = new Pickup({
-      user: req.user.id,
-      pickupDate,
-      wasteType,
-    });
-
-    const pickup = await newPickup.save();
-
-    // Create a notification for the user
-    await Notification.create({
-        user: req.user.id,
-        title: "Pickup Scheduled",
-        message: `Your ${wasteType} waste pickup has been successfully scheduled for ${new Date(pickupDate).toLocaleDateString()}.`,
-    });
-
-    res.status(201).json(pickup);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+  if (!wasteType || !pickupDate || !pickupTime) {
+    res.status(400);
+    throw new Error('Please provide all required fields for pickup.');
   }
-};
 
-// @desc    Get pickup history for a user
-// @route   GET /api/pickups
-// @access  Private
-exports.getPickupHistory = async (req, res) => {
-    try {
-        const history = await Pickup.find({ user: req.user.id }).sort({ pickupDate: -1 });
-        res.json(history);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-};
+  const pickup = new Pickup({
+    user: req.user._id, // From authMiddleware
+    community: req.user.community, // From authMiddleware
+    wasteType,
+    pickupDate,
+    pickupTime,
+  });
+
+  const createdPickup = await pickup.save();
+  res.status(201).json(createdPickup);
+});
+
+export { schedulePickup };

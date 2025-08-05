@@ -1,6 +1,6 @@
-// src/pages/NotificationsPage.jsx
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { getNotifications, markAllNotificationsAsRead } from '../api/api';
 import { FaInfoCircle, FaCalendarCheck, FaExclamationCircle, FaRegBell, FaCheckCircle } from 'react-icons/fa';
 
 const mockNotifications = [
@@ -22,13 +22,35 @@ const NotificationIcon = ({ type }) => {
 
 
 const NotificationsPage = () => {
-  const [filter, setFilter] = useState('all'); // 'all' or 'unread'
-  const [notifications, setNotifications] = useState(mockNotifications);
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        setLoading(true);
+        const { data } = await getNotifications();
+        setNotifications(data);
+      } catch (err) {
+        console.error("Failed to fetch notifications", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
   const filteredNotifications = notifications.filter(n => filter === 'unread' ? !n.read : true);
 
-  const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
+  const handleMarkAllAsRead = async () => {
+    try {
+      await markAllNotificationsAsRead();
+      // Optimistically update the UI for a faster user experience
+      setNotifications(notifications.map(n => ({ ...n, read: true })));
+    } catch (err) {
+      alert("Failed to mark notifications as read.");
+    }
   };
 
   return (
@@ -59,14 +81,15 @@ const NotificationsPage = () => {
               Unread
             </button>
           </div>
-          <button onClick={markAllAsRead} className="text-sm text-blue-600 font-semibold hover:underline">
+          <button onClick={handleMarkAllAsRead} className="text-sm text-blue-600 font-semibold hover:underline">
             Mark all as read
           </button>
         </div>
 
         {/* Notifications List */}
         <div className="divide-y divide-gray-200">
-          {filteredNotifications.length > 0 ? (
+          {loading ? <div className="text-center p-8">Loading notifications...</div> : (
+          filteredNotifications.length > 0 ? (
             filteredNotifications.map(notif => (
               <div key={notif.id} className="p-4 flex items-start space-x-4 hover:bg-slate-50 transition-colors">
                 {!notif.read && <div className="w-2.5 h-2.5 bg-blue-500 rounded-full mt-2.5 flex-shrink-0"></div>}
@@ -86,7 +109,7 @@ const NotificationsPage = () => {
               <h3 className="mt-2 text-lg font-medium text-gray-900">No Notifications</h3>
               <p className="mt-1 text-sm text-gray-500">You're all caught up!</p>
             </div>
-          )}
+          ))}
         </div>
       </div>
     </motion.div>

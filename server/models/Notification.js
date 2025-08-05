@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
-const NotificationSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+const notificationSchema = mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
     title: { type: String, required: true },
     message: { type: String, required: true },
+    type: { type: String, required: true, enum: ['reminder', 'announcement', 'success', 'update'] },
     read: { type: Boolean, default: false },
-    link: { type: String }, // Optional link to a relevant page
-    createdAt: { type: Date, default: Date.now }
-});
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Notification', NotificationSchema);
+module.exports = mongoose.model('Notification', notificationSchema);

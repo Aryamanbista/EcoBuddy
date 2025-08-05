@@ -1,23 +1,21 @@
 import { createContext, useState, useContext, useEffect } from 'react';
+import * as api from '../api/api.js'; 
 
 const AuthContext = createContext(null);
 
-const USERS_DB_KEY = 'waste_wise_users';
-const CURRENT_USER_KEY = 'waste_wise_current_user';
+const CURRENT_USER_KEY = 'ecobuddy_current_user';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // Initialize user state from localStorage on component mount
+    // This part remains the same - it rehydrates the user state on page load
     try {
       const storedUser = localStorage.getItem(CURRENT_USER_KEY);
       return storedUser ? JSON.parse(storedUser) : null;
     } catch (error) {
-      console.error("Failed to parse user from localStorage", error);
       return null;
     }
   });
-  
-  // Effect to sync user state with localStorage
+
   useEffect(() => {
     if (user) {
       localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
@@ -26,45 +24,29 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Function to register a new user
-  const register = (userData) => {
-    const allUsers = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || [];
-    
-    // Check if email already exists
-    const userExists = allUsers.some(u => u.email === userData.email);
-    if (userExists) {
-      return { success: false, message: 'An account with this email already exists.' };
-    }
+  // --- NEW ASYNC FUNCTIONS ---
 
-    // "Create" a new user (in real app, you'd hash the password)
-    const newUser = {
-      id: Date.now(), // Simple unique ID
-      ...userData,
-    };
-    
-    allUsers.push(newUser);
-    localStorage.setItem(USERS_DB_KEY, JSON.stringify(allUsers));
-    
-    return { success: true, message: 'Registration successful! Please log in.' };
+  const login = async (email, password) => {
+    try {
+      const { data } = await api.login({ email, password });
+      setUser(data); // The response data includes the token
+      return { success: true };
+    } catch (error) {
+      // Return the error message from the backend
+      return { success: false, message: error.response?.data?.message || 'Login failed' };
+    }
   };
 
-  // Function to log in a user
-  const login = (email, password) => {
-    const allUsers = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || [];
-    
-    const foundUser = allUsers.find(u => u.email === email);
-
-    if (foundUser && foundUser.password === password) {
-      // Don't store the password in the user state or session storage
-      const { password: _, ...userToStore } = foundUser; 
-      setUser(userToStore);
-      return { success: true, user: userToStore };
+  const register = async (formData) => {
+    try {
+      const { data } = await api.register(formData);
+      setUser(data);
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.response?.data?.message || 'Registration failed' };
     }
-    
-    return { success: false, message: 'Invalid email or password.' };
   };
 
-  // Function to log out a user
   const logout = () => {
     setUser(null);
   };

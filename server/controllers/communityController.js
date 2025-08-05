@@ -1,15 +1,12 @@
-// controllers/communityController.js
-const Community = require('../models/Community');
+const asyncHandler = require('express-async-handler');
+const Community = require('../models/Community.js');
 
 // @desc    Get all communities
 // @route   GET /api/communities
 // @access  Public
-exports.getCommunities = async (req, res) => {
-  try {
-    const communities = await Community.find().sort({ name: 1 });
-    res.json(communities);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-};
+const getCommunities = asyncHandler(async (req, res) => {
+  const communities = await Community.find({});
+  res.json(communities);
+});
+
+module.exports = { getCommunities };

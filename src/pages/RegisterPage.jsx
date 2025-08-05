@@ -1,35 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getCommunities } from '../api/api';
 import backgroundImage from '../assets/register-bg.jpg';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
-  const [formData, setFormData] = useState({
-    community: 'bluewood Community',
-    fullName: '',
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ communityName: '', fullName: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [communities, setCommunities] = useState([]);
+  const [loadingCommunities, setLoadingCommunities] = useState(true);
+
+  useEffect(() => {
+    const fetchCommunities = async () => {
+      try {
+        setLoadingCommunities(true); // Explicitly set loading to true
+        const { data } = await getCommunities();
+        setCommunities(data);
+        if (data.length > 0) {
+          setFormData(prev => ({ ...prev, communityName: data[0].name }));
+        }
+      } catch (err) {
+        console.error("Failed to fetch communities. Is the backend server running?", err);
+        // It's good practice to inform the user about the error
+        setError("Could not load communities. Please try again later.");
+      } finally {
+        setLoadingCommunities(false); // Set loading to false after success or failure
+      }
+    };
+    fetchCommunities();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
-
-    const result = register(formData);
-
+    const result = await register(formData);
     if (result.success) {
-      setSuccess(result.message);
-      // Redirect to login after a short delay
-      setTimeout(() => navigate('/login'), 2000);
+      navigate('/dashboard');
     } else {
       setError(result.message);
     }
@@ -44,13 +57,31 @@ const RegisterPage = () => {
           {success && <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="alert">{success}</div>}
           
           <div className="mb-4">
-            <label className="block text-white text-sm font-bold mb-2" htmlFor="community">Community Name</label>
-            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-white" type="text" placeholder="Enter community name" name="community" onChange={handleChange} required />
+            <label className="block text-white text-sm font-bold mb-2" htmlFor="communityName">
+              Select Your Community
+            </label>
+            <select
+              id="communityName"
+              name="communityName"
+              value={formData.communityName}
+              onChange={handleChange}
+              disabled={loadingCommunities || communities.length === 0}
+              className="appearance-none border border-gray-300 rounded w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 bg-transparent disabled:bg-slate-100 disabled:cursor-not-allowed"
+            >
+              {loadingCommunities ? (
+                <option>Loading communities...</option>
+              ) : communities.length > 0 ? (
+                communities.map(c => <option key={c._id} value={c.name}>{c.name}</option>)
+              ) : (
+                <option>No communities found.</option>
+              )}
+            </select>
+            <p className="text-xs text-white/80 mt-1">Is your community not listed? Contact your administrator.</p>
           </div>
           
           <div className="mb-4">
             <label className="block text-white text-sm font-bold mb-2" htmlFor="fullName">Full Name</label>
-            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="fullName" name="fullName" type="text" placeholder="John Doe" value={formData.fullName} onChange={handleChange} required />
+            <input className="shadow appearance-none border rounded w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="fullName" name="fullName" type="text" placeholder="Enter your name" value={formData.fullName} onChange={handleChange} required />
           </div>
           <div className="mb-4">
             <label className="block text-white text-sm font-bold mb-2" htmlFor="email">Email Address</label>

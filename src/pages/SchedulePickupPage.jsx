@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Calendar from 'react-calendar';
 import { FaRecycle, FaLeaf, FaTrash, FaCheckCircle, FaArrowRight } from 'react-icons/fa';
+import { schedulePickup } from '../api/api';
 
 const wasteTypes = [
   { id: 'recyclable', name: 'Recyclable', icon: <FaRecycle />, color: 'text-blue-500' },
@@ -20,15 +21,38 @@ const SchedulePickupPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     if (!selectedTime) {
-      alert("Please select a time slot.");
+      setError("Please select a time slot.");
       return;
     }
-    setIsConfirmed(true);
-    // In a real app, API call would happen here.
+
+    try {
+      // Combine date and time into a single Date object for the backend
+      const [hours, minutesPart] = selectedTime.split(':');
+      const [minutes, period] = minutesPart.split(' ');
+      let hour = parseInt(hours);
+      if (period === 'PM' && hour !== 12) hour += 12;
+      if (period === 'AM' && hour === 12) hour = 0;
+
+      const combinedDate = new Date(selectedDate);
+      combinedDate.setHours(hour, parseInt(minutes), 0, 0);
+
+      const pickupData = {
+        wasteType: selectedType,
+        scheduledDate: combinedDate.toISOString(), // Send as ISO string
+      };
+
+      await schedulePickup(pickupData);
+      setIsConfirmed(true);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to schedule pickup.");
+    }
   };
   
   if (isConfirmed) {
@@ -118,6 +142,8 @@ const SchedulePickupPage = () => {
               </div>
             </div>
           </div>
+
+          {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
           
           <button 
             type="submit" 

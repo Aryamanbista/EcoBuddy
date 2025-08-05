@@ -1,6 +1,7 @@
-// src/pages/ReportsPage.jsx
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Bar, Doughnut, Line } from 'react-chartjs-2';
+import { Line, Doughnut } from 'react-chartjs-2';
+import { getUserReport } from '../api/api';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Title, Tooltip, Legend);
@@ -14,14 +15,37 @@ const StatCard = ({ title, value, change }) => (
 );
 
 const ReportsPage = () => {
+  const [reportData, setReportData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReport = async () => {
+      try {
+        setLoading(true);
+        const { data } = await getUserReport();
+        setReportData(data);
+      } catch (err) {
+        console.error("Failed to fetch report data", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchReport();
+  }, []);
+
   const lineData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [{ label: 'Pickups', data: [12, 19, 15, 21, 18, 24], fill: true, borderColor: 'rgb(59, 130, 246)', backgroundColor: 'rgba(59, 130, 246, 0.1)', tension: 0.3 }]
+    labels: reportData?.pickupsOverTime.map(item => new Date(item._id.year, item._id.month - 1).toLocaleString('default', { month: 'short' })) || [],
+    datasets: [{ label: 'Pickups', data: reportData?.pickupsOverTime.map(item => item.count) || [], fill: true, borderColor: 'rgb(59, 130, 246)', backgroundColor: 'rgba(59, 130, 246, 0.1)', tension: 0.3 }]
   };
+
   const doughnutData = {
-    labels: ['Recyclable', 'Organic', 'General'],
-    datasets: [{ data: [120, 55, 80], backgroundColor: ['#3B82F6', '#10B981', '#6B7280'], borderWidth: 0 }]
+    labels: reportData?.pickupStats.map(item => item._id.charAt(0).toUpperCase() + item._id.slice(1)) || [],
+    datasets: [{ data: reportData?.pickupStats.map(item => item.count) || [], backgroundColor: ['#3B82F6', '#10B981', '#6B7280'], borderWidth: 0 }]
   };
+
+  if (loading) {
+    return <div className="text-center p-8">Generating your reports...</div>;
+  }
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>

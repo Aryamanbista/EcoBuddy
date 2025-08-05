@@ -1,11 +1,8 @@
 const express = require('express');
+const { schedulePickup, getUserPickups } = require('../controllers/pickupController.js');
+const { protect } = require('../middleware/authMiddleware.js');
 const router = express.Router();
-const { schedulePickup, getPickupHistory } = require('../controllers/scheduleController');
-const { protect } = require('../middleware/authMiddleware');
 
-// The route for getting history is also on this endpoint
-router.route('/')
-  .post(protect, schedulePickup)
-  .get(protect, getPickupHistory);
+router.route('/').post(protect, schedulePickup).get(protect, getUserPickups);
 
 module.exports = router;

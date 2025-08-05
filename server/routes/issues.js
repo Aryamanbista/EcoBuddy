@@ -1,10 +1,8 @@
 const express = require('express');
+const { reportIssue, getUserIssues } = require('../controllers/issueController.js');
+const { protect } = require('../middleware/authMiddleware.js');
 const router = express.Router();
-const { reportIssue, getIssues } = require('../controllers/issueController');
-const { protect } = require('../middleware/authMiddleware');
 
-router.route('/')
-  .post(protect, reportIssue)
-  .get(protect, getIssues);
+router.route('/').post(protect, reportIssue).get(protect, getUserIssues);
 
 module.exports = router;

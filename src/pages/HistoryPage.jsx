@@ -1,6 +1,7 @@
-// src/pages/HistoryPage.jsx
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch } from 'react-icons/fa';
+import { getPickups } from '../api/api.js';
 
 const mockHistory = [
   { id: 1, date: '2023-10-25', type: 'Recyclable', status: 'Completed', requestId: 'REQ-7348' },
@@ -20,6 +21,36 @@ const StatusBadge = ({ status }) => {
 };
 
 const HistoryPage = () => {
+  const [pickups, setPickups] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        setLoading(true);
+        const { data } = await getPickups();
+        setPickups(data);
+        setError(null);
+      } catch (err) {
+        setError('Failed to fetch pickup history.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHistory();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center p-8">Loading your history...</div>;
+  }
+  
+  if (error) {
+    return <div className="text-center p-8 text-red-500">{error}</div>;
+  }
+
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <div className="mb-8">
@@ -49,14 +80,20 @@ const HistoryPage = () => {
               </tr>
             </thead>
             <tbody>
-              {mockHistory.map((item, index) => (
-                <tr key={item.id} className="bg-white border-b hover:bg-slate-50">
-                  <td className="px-6 py-4 font-medium text-gray-900">{item.requestId}</td>
-                  <td className="px-6 py-4">{item.date}</td>
-                  <td className="px-6 py-4">{item.type}</td>
-                  <td className="px-6 py-4"><StatusBadge status={item.status} /></td>
+              {pickups.length > 0 ? (
+                pickups.map((item) => (
+                  <tr key={item._id} className="bg-white border-b hover:bg-slate-50">
+                    <td className="px-6 py-4 font-medium text-gray-900">{item._id.slice(-6).toUpperCase()}</td>
+                    <td className="px-6 py-4">{new Date(item.scheduledDate).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 capitalize">{item.wasteType}</td>
+                    <td className="px-6 py-4"><StatusBadge status={item.status} /></td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center py-8 text-gray-500">No pickup history found.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

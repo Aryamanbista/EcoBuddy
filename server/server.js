@@ -1,10 +1,21 @@
-// server.js
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
-// Load env vars
+// Import routes
+const authRoutes = require('./routes/auth');
+const communityRoutes = require('./routes/communities');
+const pickupRoutes = require('./routes/pickups');
+const issueRoutes = require('./routes/issues');
+const notificationRoutes = require('./routes/notifications');
+const reportRoutes = require('./routes/reports');
+const userRoutes = require('./routes/user');
+
+const adminRoutes = require('./routes/admin');
+
+// Load environment variables
 dotenv.config();
 
 // Connect to database
@@ -13,22 +24,26 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(express.json()); // Body parser
-app.use(cors()); // Enable CORS
+app.use(cors()); // Enable CORS for all routes
+app.use(express.json()); // To accept JSON data in the body
 
-// Define Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/pickups', require('./routes/pickups'));
-app.use('/api/issues', require('./routes/issues'));
-app.use('/api/communities', require('./routes/communities'));
-app.use('/api/notifications', require('./routes/notifications'));
-app.use('/api/reports', require('./routes/reports'));
+// Mount routes
+app.use('/api/auth', authRoutes);
+app.use('/api/communities', communityRoutes);
+app.use('/api/pickups', pickupRoutes);
+app.use('/api/issues', issueRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/user', userRoutes);
 
-// Default route
-app.get('/', (req, res) => {
-  res.send('EcoBuddy API is running...');
-});
+app.use('/api/admin', adminRoutes);
 
-const PORT = process.env.PORT || 5001;
+// Error handling middleware
+app.use(notFound);
+app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () =>
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+);

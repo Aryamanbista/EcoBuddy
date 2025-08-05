@@ -1,28 +1,20 @@
-// controllers/notificationController.js
-const Notification = require('../models/Notification');
+const asyncHandler = require('express-async-handler');
+const Notification = require('../models/Notification.js');
 
-// @desc    Get notifications for a user
+// @desc    Get user's notifications
 // @route   GET /api/notifications
 // @access  Private
-exports.getNotifications = async (req, res) => {
-  try {
-    const notifications = await Notification.find({ user: req.user.id }).sort({ createdAt: -1 });
-    res.json(notifications);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-};
+const getUserNotifications = asyncHandler(async (req, res) => {
+  const notifications = await Notification.find({ user: req.user._id }).sort({ createdAt: -1 });
+  res.json(notifications);
+});
 
 // @desc    Mark all notifications as read
-// @route   PUT /api/notifications/mark-all-read
+// @route   PUT /api/notifications/read-all
 // @access  Private
-exports.markAllAsRead = async (req, res) => {
-  try {
-    await Notification.updateMany({ user: req.user.id, read: false }, { read: true });
-    res.json({ msg: 'All notifications marked as read' });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-};
+const markAllAsRead = asyncHandler(async (req, res) => {
+  await Notification.updateMany({ user: req.user._id, read: false }, { read: true });
+  res.json({ message: 'All notifications marked as read' });
+});
+
+module.exports = { getUserNotifications, markAllAsRead };

@@ -7,7 +7,10 @@ const {
   createAnnouncement,
   getAllUsers,
   getAllPickups,
-  getChartData
+  getChartData,
+  getAnnouncements,
+  updateAnnouncement,
+  deleteAnnouncement,
 } = require('../controllers/adminController.js');
 const { protect } = require('../middleware/authMiddleware.js');
 const { admin } = require('../middleware/adminMiddleware.js');
@@ -19,6 +22,9 @@ router.get('/stats', getDashboardStats);
 router.get('/issues', getAllIssues);
 router.put('/issues/:id', updateIssueStatus);
 router.post('/announce', createAnnouncement);
+router.get('/announcements', getAnnouncements);
+router.put('/announcements/:id', updateAnnouncement);
+router.delete('/announcements/:id', deleteAnnouncement);
 router.get('/users', getAllUsers);
 router.get('/pickups', getAllPickups);
 router.get('/charts', getChartData);

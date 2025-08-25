@@ -51,5 +51,8 @@ export const getAdminPickups = () => API.get('/admin/pickups');
 export const getAdminChartData = () => API.get('/admin/charts');
 export const updateIssueStatus = (id, status) => API.put(`/admin/issues/${id}`, { status });
 export const createAnnouncement = (formData) => API.post('/admin/announce', formData);
+export const getAnnouncements = () => API.get('/admin/announcements');
+export const updateAnnouncement = (id, data) => API.put(`/admin/announcements/${id}`, data);
+export const deleteAnnouncement = (id) => API.delete(`/admin/announcements/${id}`);
 
 export default API;

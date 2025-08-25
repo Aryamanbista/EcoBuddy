@@ -39,7 +39,11 @@ export const markAllNotificationsAsRead = () =>
   API.put("/notifications/read-all");
 
 // --- Report Endpoints ---
-export const getUserReport = () => API.get("/reports");
+export const getUserReport = () => API.get('/reports');
+// The export endpoint needs special handling for file download
+export const exportUserReport = () => API.get('/reports/export', {
+  responseType: 'blob', // Important: tells axios to handle the response as a file
+});
 
 // --- Community Endpoints ---
 export const getCommunities = () => API.get("/communities");

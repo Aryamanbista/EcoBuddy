@@ -16,7 +16,8 @@ import ReportIssuePage from './pages/ReportIssuePage';
 import HistoryPage from './pages/HistoryPage';
 import NotificationsPage from './pages/NotificationsPage';
 import ReportsPage from './pages/ReportsPage';
-
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import { AdminLayout } from './components/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageIssues from './pages/admin/ManageIssues';
@@ -33,6 +34,8 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+          <Route path="/forgot-password" element={<PublicRoute><ForgotPasswordPage /></PublicRoute>} />
+      <Route path="/reset-password/:token" element={<PublicRoute><ResetPasswordPage /></PublicRoute>} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}> {/* Gatekeeper for users */}

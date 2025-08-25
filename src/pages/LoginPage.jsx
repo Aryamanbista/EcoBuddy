@@ -49,6 +49,11 @@ const LoginPage = () => {
             </label>
             <input className="shadow appearance-none border rounded w-full py-3 px-4 text-white mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="password" type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
+          <div className="text-right text-sm mb-4">
+        <Link to="/forgot-password" className="font-bold text-blue-100 hover:text-blue-300">
+          Forgot Password?
+        </Link>
+      </div>
           <div className="flex flex-col items-center justify-between">
             <button className="bg-blue-600 hover:bg-blue-700 text-white my-4 font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition-colors" type="submit">
               Sign In

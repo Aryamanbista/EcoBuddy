@@ -42,7 +42,6 @@ const RegisterPage = () => {
     setError('');
     const result = await register(formData);
     if (result.success) {
-      // THE FIX IN ACTION: Check the role after registration too.
       if (result.user.role === 'admin') {
         navigate('/admin/dashboard');
       } else {

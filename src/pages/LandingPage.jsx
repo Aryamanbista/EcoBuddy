@@ -11,7 +11,7 @@ import {
   FaGithub,
   FaLinkedin
 } from 'react-icons/fa';
-import appMockup from '../assets/app-mockup.jpg'; // Ensure this image is available
+import appMockup from '../assets/app-mockup.jpg';
 
 // Animation Variants
 const sectionVariants = {
@@ -36,10 +36,10 @@ const itemVariants = {
 // Aurora Background with Liquid Glass Effects
 const AuroraBackground = () => (
   <div className="absolute top-0 left-0 -z-10 h-full w-full overflow-hidden">
-    <div className="absolute top-1/4 left-1/4 h-[500px] w-[500px] animate-float rounded-full bg-emerald-500/20 filter blur-3xl" />
-    <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] animate-float delay-1000 rounded-full bg-cyan-500/20 filter blur-3xl" />
-    <div className="absolute top-1/3 right-1/3 h-[300px] w-[300px] animate-float delay-2000 rounded-full bg-teal-500/20 filter blur-3xl" />
-    <div className="absolute bottom-1/3 left-1/3 h-[350px] w-[350px] animate-float delay-3000 rounded-full bg-green-500/20 filter blur-3xl" />
+    <div className="absolute top-1/4 left-1/4 h-[500px] w-[500px] animate-float rounded-full bg-blue-500/20 filter blur-3xl" />
+    <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] animate-float delay-1000 rounded-full bg-sky-500/20 filter blur-3xl" />
+    <div className="absolute top-1/3 right-1/3 h-[300px] w-[300px] animate-float delay-2000 rounded-full bg-indigo-500/20 filter blur-3xl" />
+    <div className="absolute bottom-1/3 left-1/3 h-[350px] w-[350px] animate-float delay-3000 rounded-full bg-blue-400/20 filter blur-3xl" />
   </div>
 );
 
@@ -49,20 +49,20 @@ const LandingHeader = () => (
     initial={{ y: -100 }}
     animate={{ y: 0 }}
     transition={{ type: 'spring', stiffness: 100, damping: 15 }}
-    className="fixed top-0 left-0 z-50 w-full border-b border-white/20 bg-slate-900/20 backdrop-blur-xl"
+    className="fixed top-0 left-0 z-50 w-full border-b border-blue-100/20 bg-white shadow-lg backdrop-blur-xl"
   >
     <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
       <Link to="/" className="flex items-center gap-2">
-        <FaRecycle className="text-3xl text-emerald-400" />
-        <span className="text-2xl font-bold tracking-tight text-slate-100">EcoBuddy</span>
+        <FaRecycle className="text-3xl text-blue-600" />
+        <span className="text-2xl font-bold tracking-tight text-blue-900">EcoBuddy</span>
       </Link>
       <nav className="flex items-center gap-4">
-        <Link to="/login" className="hidden font-medium text-slate-300 transition-colors hover:text-white sm:block">
+        <Link to="/login" className="hidden font-medium text-blue-600 transition-colors hover:text-blue-800 sm:block">
           Login
         </Link>
         <Link
           to="/register"
-          className="transform rounded-full bg-white/20 backdrop-blur-md border border-emerald-400/50 py-2 px-5 font-semibold text-emerald-400 transition-all hover:scale-105 hover:bg-emerald-400/30"
+          className="transform rounded-full bg-blue-600 py-2 px-5 font-semibold text-white transition-all hover:scale-105 hover:bg-blue-700"
         >
           Get Started
         </Link>
@@ -76,20 +76,20 @@ const BentoCard = ({ className, icon, title, description }) => (
   <motion.div
     variants={itemVariants}
     whileHover={{ scale: 1.02 }}
-    className={`relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-6 ${className}`}
+    className={`relative overflow-hidden rounded-2xl border border-blue-100 bg-white p-6 shadow-lg ${className}`}
   >
     <motion.div
-      className="absolute inset-0 bg-white/10 rounded-2xl"
+      className="absolute inset-0 bg-blue-50 rounded-2xl"
       initial={{ opacity: 0 }}
       whileHover={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     />
     <div className="relative z-10">
-      <div className="mb-4 inline-block w-fit rounded-lg bg-slate-900 p-3 text-3xl text-emerald-400">
+      <div className="mb-4 inline-block w-fit rounded-lg bg-blue-100 p-3 text-3xl text-blue-600">
         {icon}
       </div>
-      <h3 className="mb-1 text-lg font-bold text-slate-100">{title}</h3>
-      <p className="text-sm text-slate-400">{description}</p>
+      <h3 className="mb-1 text-lg font-bold text-blue-900">{title}</h3>
+      <p className="text-sm text-blue-600">{description}</p>
     </div>
   </motion.div>
 );
@@ -97,7 +97,7 @@ const BentoCard = ({ className, icon, title, description }) => (
 // Main Landing Page Component
 const LandingPage = () => {
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-slate-900 font-sans text-slate-200">
+    <div className="relative min-h-screen overflow-x-hidden bg-white font-sans text-blue-900">
       <AuroraBackground />
       <LandingHeader />
 
@@ -109,7 +109,7 @@ const LandingPage = () => {
           animate="visible"
           className="relative px-4 py-24 text-center sm:py-32 lg:py-40"
         >
-          <div className="mx-auto max-w-3xl bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8">
+          <div className="mx-auto max-w-3xl bg-white/80 backdrop-blur-md border border-blue-100 rounded-xl p-8 shadow-xl">
             <motion.h1
               variants={itemVariants}
               className="mb-6 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
@@ -117,20 +117,20 @@ const LandingPage = () => {
               Revolutionize Waste Management
               <br />
               for a{' '}
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                Greener Tomorrow
+              <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+                Cleaner Tomorrow
               </span>
             </motion.h1>
             <motion.p
               variants={itemVariants}
-              className="mx-auto mb-10 max-w-2xl text-lg text-slate-400"
+              className="mx-auto mb-10 max-w-2xl text-lg text-blue-600"
             >
               EcoBuddy connects communities with efficient, transparent, and sustainable waste solutions. Schedule pickups, report issues, and track your impact instantly.
             </motion.p>
             <motion.div variants={itemVariants}>
               <Link
                 to="/register"
-                className="inline-flex transform items-center gap-3 rounded-full bg-white/20 backdrop-blur-md border border-emerald-400/50 py-3 px-8 text-lg font-bold text-emerald-400 transition-all hover:scale-105 hover:bg-emerald-400/30"
+                className="inline-flex transform items-center gap-3 rounded-full bg-blue-600 py-3 px-8 text-lg font-bold text-white transition-all hover:scale-105 hover:bg-blue-700"
               >
                 Join the Movement <FaArrowRight />
               </Link>
@@ -223,11 +223,11 @@ const LandingPage = () => {
                 className="relative z-10 flex flex-col items-center text-center bg-white/10 border border-white/20 rounded-xl p-6"
               >
                 <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 backdrop-blur-md">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-2xl font-bold text-emerald-400">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/20 text-2xl font-bold text-black">
                     {i + 1}
                   </div>
                 </div>
-                <h3 className="mb-2 text-xl font-semibold text-slate-100">{title}</h3>
+                <h3 className="mb-2 text-xl font-semibold text-black">{title}</h3>
                 <p className="text-slate-400">
                   {i === 0 && 'Quickly sign up and join your local community hub.'}
                   {i === 1 && 'Use our intuitive app to manage pickups and report issues.'}
@@ -248,7 +248,7 @@ const LandingPage = () => {
         >
           <div className="container mx-auto px-4 text-center">
             <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md py-12 px-6 lg:py-16 lg:px-8">
-              <div className="absolute top-0 left-1/2 h-[200%] w-[200%] -translate-x-1/2 bg-[radial-gradient(circle_at_center,_rgba(34,197,94,0.15)_0%,_rgba(34,197,94,0)_50%)]" />
+              <div className="absolute top-0 left-1/2 h-[200%] w-[200%] -translate-x-1/2 bg-[radial-gradient(circle_at_center,_rgba(34,197,94,0.15)_0%,_rgba(0,0,0,0)_50%)]" />
               <motion.h2 variants={itemVariants} className="mb-4 text-3xl font-bold lg:text-4xl">
                 Ready to Make a Change?
               </motion.h2>
@@ -258,7 +258,7 @@ const LandingPage = () => {
               <motion.div variants={itemVariants}>
                 <Link
                   to="/register"
-                  className="transform rounded-full bg-white/20 backdrop-blur-md border border-emerald-400/50 py-3 px-8 text-lg font-bold text-emerald-400 transition-all hover:scale-105 hover:bg-emerald-400/30"
+                  className="transform rounded-full bg-white/20 backdrop-blur-md border border-blue-400/50 py-3 px-8 text-lg font-bold text-blue-400 transition-all hover:scale-105 hover:bg-blue-400/30"
                 >
                   Sign Up for Free
                 </Link>
@@ -269,21 +269,21 @@ const LandingPage = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/20 bg-white/10 backdrop-blur-md py-10">
+      <footer className="border-t border-blue-100 bg-white py-10 shadow-inner">
         <div className="container mx-auto px-4 text-center">
           <div className="mb-4 flex justify-center gap-6">
-            <a href="#" className="text-slate-400 transition-colors hover:text-white">
+            <a href="#" className="text-blue-600 transition-colors hover:text-blue-800">
               <FaTwitter size={20} />
             </a>
-            <a href="#" className="text-slate-400 transition-colors hover:text-white">
+            <a href="#" className="text-blue-600 transition-colors hover:text-blue-800">
               <FaGithub size={20} />
             </a>
-            <a href="#" className="text-slate-400 transition-colors hover:text-white">
+            <a href="#" className="text-blue-600 transition-colors hover:text-blue-800">
               <FaLinkedin size={20} />
             </a>
           </div>
-          <p className="text-slate-400">© {new Date().getFullYear()} EcoBuddy. All Rights Reserved.</p>
-          <p className="mt-2 text-sm text-slate-500">Making communities cleaner, one pickup at a time.</p>
+          <p className="text-blue-600">© {new Date().getFullYear()} EcoBuddy. All Rights Reserved.</p>
+          <p className="mt-2 text-sm text-blue-500">Making communities cleaner, one pickup at a time.</p>
         </div>
       </footer>
     </div>

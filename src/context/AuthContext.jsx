@@ -51,8 +51,13 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  // New function to update user state from other components
+  const updateUserState = (newUserData) => {
+    setUser(newUserData);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, register }}>
+    <AuthContext.Provider value={{ user, login, logout, register, updateUserState }}>
       {children}
     </AuthContext.Provider>
   );

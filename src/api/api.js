@@ -69,4 +69,7 @@ export const forgotPassword = (email) =>
 export const resetPassword = (token, password) =>
   API.put(`/auth/reset-password/${token}`, { password });
 
+// --- User Endpoints --- (Let's create this section)
+export const updateUserProfile = (profileData) => API.put('/user/profile', profileData);
+
 export default API;

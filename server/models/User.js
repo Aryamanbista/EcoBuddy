@@ -21,6 +21,12 @@ const userSchema = mongoose.Schema(
 
     resetPasswordToken: String,
     resetPasswordExpire: Date,
+    notificationPreferences: {
+      pickupReminders: {
+        type: Boolean,
+        default: true, // Users are opted-in by default
+      },
+    },
   },
   { timestamps: true }
 );

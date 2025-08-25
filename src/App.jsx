@@ -24,6 +24,7 @@ import ManageIssues from './pages/admin/ManageIssues';
 import AnnouncePage from './pages/admin/AnnouncePage';
 import ManageUsersPage from './pages/admin/ManageUsersPage';
 import ManagePickupsPage from './pages/admin/ManagePickupsPage';
+import SettingsPage  from './pages/SettingsPage';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
               <Route path="history" element={<HistoryPage />} />
               <Route path="notifications" element={<NotificationsPage />} />
               <Route path="reports" element={<ReportsPage />} />
+              <Route path="settings" element={<SettingsPage />}/>
             </Route>
           </Route>
 

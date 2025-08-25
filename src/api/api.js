@@ -4,7 +4,7 @@ import axios from "axios";
 // Create an Axios instance with a base URL.
 // All requests made with this instance will be prefixed with this URL.
 const API = axios.create({
-  baseURL: "http://localhost:8000/api", // Your backend server URL
+  baseURL: "http://localhost:8001/api", // Your backend server URL
 });
 
 // IMPORTANT: Interceptor to add the token to every request

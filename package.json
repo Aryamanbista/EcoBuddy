@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test:jest": "jest",
-    "test:e2e": "mocha test/auth.test.js"
+    "test:e2e": "mocha test/**/*.test.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",

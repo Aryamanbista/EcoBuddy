@@ -86,6 +86,7 @@ const AdminDashboard = () => {
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+      <span className='selenium'></span>
       <h1 className="text-3xl font-bold text-gray-900 mb-6">Community Dashboard</h1>
       {loading ? <p>Loading dashboard...</p> : (
         <>

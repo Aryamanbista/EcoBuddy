@@ -8,17 +8,24 @@ const ForgotPasswordPage = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setMessage('');
+  //   setError('');
+  //   try {
+  //     await forgotPassword(email);
+  //     setMessage('An email has been sent with instructions to reset your password.');
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || 'Something went wrong.');
+  //   }
+  // };
+
+  const handleSubmit =(e)=>{
     e.preventDefault();
     setMessage('');
     setError('');
-    try {
-      await forgotPassword(email);
-      setMessage('An email has been sent with instructions to reset your password.');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong.');
-    }
-  };
+    setMessage("An email has been sent with instructions to reset your password.");
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-cover" style={{ backgroundImage: `url(${backgroundImage})` }}>
